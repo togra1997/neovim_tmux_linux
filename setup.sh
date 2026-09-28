@@ -6,7 +6,7 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
 
 # install neovim
-brew install -y neovim git fzf ripgrep jesseduffield/lazygit/lazygit
+brew install -y neovim git fzf ripgrep lazygit
 
 # install LazyVim
 # git clone https://github.com/LazyVim/starter ~/.config/nvim
