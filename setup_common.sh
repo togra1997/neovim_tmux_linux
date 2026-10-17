@@ -14,7 +14,7 @@ log_done() {
 
 install_tools() {
   echo "📥 Installing tools (neovim, git, fzf, ripgrep, lazygit)..."
-  brew install -y neovim git fzf ripgrep lazygit
+  brew install -y neovim fzf ripgrep lazygit
 }
 
 install_claude_code() {
