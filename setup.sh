@@ -1,19 +1,30 @@
 #!/bin/bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/setup_common.sh"
+
+echo "🚀 Setup started..."
 
 # Homebrew install
-NONINTERACTIVE=1 CI=true /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+if ! command -v brew &>/dev/null; then
+  echo "📦 Installing Homebrew..."
+  NONINTERACTIVE=1 CI=true /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
+else
+  log_ok "Homebrew already installed"
+fi
+
+# Setup environment
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
 
-# install neovim
-brew install -y neovim git fzf ripgrep lazygit
+# Run common setup functions
+install_tools
+install_claude_code
+setup_nvim
 
-curl -fsSL https://claude.ai/install.sh | bash
-# install LazyVim
-# git clone https://github.com/LazyVim/starter ~/.config/nvim
-# rm -rf ~/.config/nvim/.git
-mkdir -p ~/.config/nvim
-cp -r ~/neovim_tmux_linux/configs/nvim ~/.config
-
-# update command
+# Reload environment
 source ~/.bashrc
+
+log_done
